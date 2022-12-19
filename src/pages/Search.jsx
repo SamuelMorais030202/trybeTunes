@@ -6,14 +6,15 @@ import Carregando from './Carregando';
 
 class Search extends React.Component {
   state = {
-    name: '',
-    searchUser: '',
-    verification: true,
-    responseAPI: false,
-    API: [],
-    failureAPI: false,
+    name: '', // Ira receber o valor de searchUser, pois esse será limpo apos o botão ser clicado.
+    searchUser: '', // Recebera o valor do input.
+    verification: true, // Será usado para mostrar o input ou o carregando.
+    responseAPI: false, // Será true apos o retorno da API.
+    API: [], // Recebe o valor da API.
+    failureAPI: false, // Será true se a API não retornar nada.
   };
 
+  // Função será chamada apos o botão ser clicado
   submitButton = async () => {
     const { searchUser } = this.state;
     const search = searchUser;
@@ -31,6 +32,7 @@ class Search extends React.Component {
     });
   };
 
+  // Função usada para armazenar o valor do input no estado
   handleSearch = ({ target }) => {
     this.setState({
       searchUser: target.value,
