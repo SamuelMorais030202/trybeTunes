@@ -3,18 +3,28 @@ import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import getMusics from '../services/musicsAPI';
 import MusicCard from '../components/MusicCard';
+import { getFavoriteSongs } from '../services/favoriteSongsAPI';
 
 class Album extends React.Component {
   // Declaração dos estados
   state = {
     artist: '',
     idAlbum: [],
+    updateMusic: [],
   };
 
   // função nativa
   componentDidMount() {
     this.loadingMusics();
+    this.updatMusic();
   }
+
+  updatMusic = async () => {
+    const checkMusic = await getFavoriteSongs();
+    this.setState({
+      updateMusic: checkMusic,
+    });
+  };
 
   // Vai desetruturar o id que é passado pela url
   // O id desestruturado será passado como argumento para a
@@ -24,13 +34,13 @@ class Album extends React.Component {
     const listMusics = await getMusics(id);
     this.setState({
       artist: listMusics[0],
-      idAlbum: listMusics.slice(1),
+      idAlbum: listMusics.filter((music) => music.trackId),
     });
   };
 
   render() {
     // Desestruturação dos estados
-    const { idAlbum, artist } = this.state;
+    const { idAlbum, artist, updateMusic } = this.state;
     return (
       // Div principal
       <div data-testid="page-album">
@@ -52,6 +62,8 @@ class Album extends React.Component {
           <div>
             {idAlbum.map((music) => (
               <MusicCard
+                update={ this.updatMusic }
+                updateChecked={ updateMusic }
                 { ...music }
                 key={ music.trackName }
               />
