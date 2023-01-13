@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Carregando from '../pages/Carregando';
-import { addSong } from '../services/favoriteSongsAPI';
+import { addSong, removeSong } from '../services/favoriteSongsAPI';
 
 class MusicCard extends React.Component {
   // Estados
@@ -12,14 +12,19 @@ class MusicCard extends React.Component {
 
   // Essa função ira adicionar as músicas favoritadas
   // A lógica do carregando esta aqui
-  favoriteMusic = async (music) => {
+  favoriteMusic = async (music, { target: { checked } }) => {
     const { update } = this.props;
     // const { updateMusic } = this.state;
     this.setState({
       check: false,
     });
+    if (checked) {
+      await addSong(music);
+    } else {
+      await removeSong(music);
+    }
     // Irá adicionar a música aos favoritos
-    await addSong(music);
+    // await addSong(music);
     // Irá atualizar a lista de músicas favoritadas
     await update();
     this.setState({
@@ -55,7 +60,7 @@ class MusicCard extends React.Component {
                     .trackId === trackId) }
                   name="checked"
                   id={ `checkbox-music-${trackId}` }
-                  onChange={ () => this.favoriteMusic(this.props) }
+                  onChange={ (event) => this.favoriteMusic(this.props, event) }
                 />
               </label>
             )
@@ -73,7 +78,7 @@ MusicCard.propTypes = {
   // check: PropTypes.bool.isRequired,
   // addSong: PropTypes.shape().isRequired,
   update: PropTypes.func.isRequired,
-  updateChecked: PropTypes.bool.isRequired,
+  updateChecked: PropTypes.arrayOf.isRequired,
 };
 
 export default MusicCard;
