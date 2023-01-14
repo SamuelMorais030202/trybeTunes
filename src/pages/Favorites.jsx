@@ -20,12 +20,11 @@ class Favorites extends React.Component {
       loading: true,
     });
     await removeSong(music);
-    const updatingFavoriteSongs = await getFavoriteSongs();
     this.setState({
-      check: false,
-      musicsFavorits: updatingFavoriteSongs,
+      musicsFavorits: await getFavoriteSongs(),
       loading: false,
     });
+    await getFavoriteSongs();
   };
 
   loadingFavoritsSongs = async () => {
