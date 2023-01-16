@@ -23,7 +23,6 @@ class Profile extends React.Component {
       loading: true,
       informationsUser: informations,
     });
-    console.log(informations);
   };
 
   render() {

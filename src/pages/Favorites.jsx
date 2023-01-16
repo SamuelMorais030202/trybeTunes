@@ -24,7 +24,7 @@ class Favorites extends React.Component {
       musicsFavorits: await getFavoriteSongs(),
       loading: false,
     });
-    await getFavoriteSongs();
+    // await getFavoriteSongs();
   };
 
   loadingFavoritsSongs = async () => {
@@ -37,10 +37,10 @@ class Favorites extends React.Component {
 
   render() {
     const { loading, musicsFavorits, check } = this.state;
-    console.log(musicsFavorits);
     return (
       <div data-testid="page-favorites">
         <Header />
+        <h3>Favoritas:</h3>
         <div>
           {
             loading
@@ -60,13 +60,16 @@ class Favorites extends React.Component {
                     </audio>
                     <label
                       htmlFor={ `checkbox-music-${music.trackId}` }
+                      data-testid={ `checkbox-music-${music.trackId}` }
                     >
                       <input
+                        id={ `checkbox-music-${music.trackId}` }
                         type="checkbox"
                         checked={ check }
                         name="checked"
                         onChange={ () => this.disfavoringMusic(music) }
                       />
+                      Favorita
                     </label>
                   </div>
                 ))
