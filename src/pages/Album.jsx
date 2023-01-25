@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import getMusics from '../services/musicsAPI';
 import MusicCard from '../components/MusicCard';
 import { getFavoriteSongs } from '../services/favoriteSongsAPI';
+import './style/Album.css';
 
 class Album extends React.Component {
   // Declaração dos estados
@@ -43,23 +44,25 @@ class Album extends React.Component {
     const { idAlbum, artist, updateMusic } = this.state;
     return (
       // Div principal
-      <div data-testid="page-album">
+      <div data-testid="page-album" className="page-album">
         <Header />
-        <div>
-          <div>
-            <img src={ artist.artworkUrl100 } alt="" />
-            <h4
-              data-testid="album-name"
-            >
-              {artist.collectionName}
-            </h4>
-            <p
-              data-testid="artist-name"
-            >
-              {artist.artistName}
-            </p>
+        <div className="main-album">
+          <div className="card-album">
+            <img src={ artist.artworkUrl100 } alt="imagem album" />
+            <div className="description">
+              <h4
+                data-testid="album-name"
+              >
+                {artist.collectionName}
+              </h4>
+              <p
+                data-testid="artist-name"
+              >
+                {artist.artistName}
+              </p>
+            </div>
           </div>
-          <div>
+          <div className="musics-album">
             {idAlbum.map((music) => (
               <MusicCard
                 update={ this.updatMusic }
