@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import searchAlbumsAPI from '../services/searchAlbumsAPI';
 import Carregando from './Carregando';
+import './style/Search.css';
 
 class Search extends React.Component {
   state = {
@@ -45,53 +46,58 @@ class Search extends React.Component {
     console.log(responseAPI);
     const response = `Resultado de álbuns de: ${name}`;
     return (
-      <div data-testid="page-search">
+      <div data-testid="page-search" className="page-search">
         <Header />
-        {
-          verification
-            ? (
-              <div>
-                <input
-                  value={ searchUser }
-                  type="text"
-                  data-testid="search-artist-input"
-                  onChange={ this.handleSearch }
-                />
-                <button
-                  type="button"
-                  data-testid="search-artist-button"
-                  disabled={ !disabled }
-                  onClick={ this.submitButton }
-                >
-                  Pesquisar
-                </button>
-              </div>
-            ) : <Carregando />
-        }
-        {
-          API.length > 0 && (
-            <>
-              <h2>{response}</h2>
-              <div>
-                {
-                  API.map((album) => (
-                    <Link
-                      to={ `/album/${album.collectionId}` }
-                      key={ album.artistName }
-                      data-testid={ `link-to-album-${album.collectionId}` }
-                    >
-                      <div key={ album.artistName }>
-                        <img src={ album.artworkUrl100 } alt="Imagem album" />
-                        <h4>{album.collectionName}</h4>
-                        <p>{album.artistName}</p>
+        <div className="main-page-search">
+          {
+            verification
+              ? (
+                <div className="pesquisa">
+                  <input
+                    placeholder="Pesquise..."
+                    value={ searchUser }
+                    type="text"
+                    data-testid="search-artist-input"
+                    onChange={ this.handleSearch }
+                  />
+                  <button
+                    type="button"
+                    data-testid="search-artist-button"
+                    disabled={ !disabled }
+                    onClick={ this.submitButton }
+                  >
+                    Pesquisar
+                  </button>
+                </div>
+              ) : <Carregando />
+          }
+          {
+            API.length > 0 && (
+              <>
+                <h2>{response}</h2>
+                <div className="albuns">
+                  {
+                    API.map((album) => (
+                      <div key={ album.artistName } className="album">
+                        <Link
+                          to={ `/album/${album.collectionId}` }
+                          key={ album.artistName }
+                          data-testid={ `link-to-album-${album.collectionId}` }
+                        >
+                          <img src={ album.artworkUrl100 } alt="Imagem album" />
+                        </Link>
+                        <div key={ album.artistName } className="descriptionAlbum">
+                          <h4>{album.collectionName}</h4>
+                          <p>{album.artistName}</p>
+                        </div>
                       </div>
-                    </Link>
-                  ))
-                }
-              </div>
-            </>
-          )
-        }
+                    ))
+                  }
+                </div>
+              </>
+            )
+          }
+        </div>
         {failureAPI && responseAPI && (<h2>Nenhum álbum foi encontrado</h2>) }
       </div>
     );
